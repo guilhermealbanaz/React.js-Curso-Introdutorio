@@ -4,7 +4,7 @@ function Empresa(){
     return(
         <div>
             <h1>Empresa</h1>
-            <p>Welcome</p>
+            <p>Welcome2</p>
         </div>
     )
 }
