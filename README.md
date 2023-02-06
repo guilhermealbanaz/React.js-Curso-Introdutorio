@@ -1,2 +1,2 @@
 # React.js-Curso-Introdut-rio
-Curso React.js
+Curso React.js, com intuito de práticar e aprimorar conceitos.
