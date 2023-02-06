@@ -11,6 +11,10 @@
     list-style-type: none;
 }
 
+.social_list a {
+    color: #fff;
+}
+
 .social_list li {
     margin: 0 1em;
 }
