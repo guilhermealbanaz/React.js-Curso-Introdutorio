@@ -5,9 +5,10 @@ import Input from '../form/Input'
 import Select from '../form/Select'
 import SubmitButton from '../form/SubmitButton'
 
-function ProjectForm({btnText}){
+function ProjectForm({handleSubmit, btnText, projectData}){
 
     const [categories, setCategories] = useState([])
+    const [project, setProject] = useState(projectData || {})
 
     useEffect(() => {
         fetch('http://localhost:5000/categories', {
@@ -22,12 +23,28 @@ function ProjectForm({btnText}){
     .catch((err) => console.log(err))
     }, [])
 
+    const submit = (e) => {
+        e.preventDefault()
+        handleSubmit(project)
+    }
+
+    function handleChange(e){
+        setProject({ ...project, [e.target.name]: e.target.value})
+    }
+
+    function handleCategory(e){
+        setProject({ ...project, category: {
+            id: e.target.value,
+            name: e.target.options[e.target.selectedIndex].text
+        } })
+    }
+
     return(
-        <form className={styles.form}>
-            <Input type='text' text='Nome do projeto' name='name' placeholder='Insira o nome do projeto'/>
-            <Input type='number' text='Valor do orçamento' name='budget' placeholder='Insira o orçamento total do projeto'/>
-                <Select name='category_id' text='Selecione a categoria' options={categories} />
-                <SubmitButton text={btnText}/>
+        <form onSubmit={submit} className={styles.form}>
+            <Input type='text' value={project.name ? project.name : ''} text='Nome do projeto' name='name' placeholder='Insira o nome do projeto' handleOnChange={handleChange}/>
+            <Input type='number' value={project.budget ? project.budget : ''} text='Valor do orçamento' name='budget' placeholder='Insira o orçamento total do projeto' handleOnChange={handleChange}/>
+                <Select  value={project.category ? project.category.id : ''} handleOnChange={handleCategory} name='category_id' text='Selecione a categoria' options={categories} />
+                <SubmitButton text={btnText} value={project.category ? project.category.id : ''} handleOnChange={handleCategory}/>
         </form>
 
     )
